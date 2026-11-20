@@ -1,4 +1,4 @@
-# CogAlign: Aligning MLLMs with the Latent Structure of Human Cognition via Behavior-Derived Semantic Dimensions**
+# CogAlign: Aligning MLLMs with the Latent Structure of Human Cognition via Behavior-Derived Semantic Dimensions
 
 Ning E, Changde Du, Yizhuo Lu, and Huiguang He  
 NeurIPS 2026 · Poster
