@@ -1,0 +1,31 @@
+numpy
+pillow
+scipy
+tqdm
+
+accelerate
+bitsandbytes
+deepspeed
+peft
+qwen-vl-utils
+torch
+torchvision
+transformers
+trl
+vllm
+
+h5py
+pycortex
+torchmetrics
+
+openai
+sentence-transformers
+swanlab
+
+pypdf
+reportlab
+
+# flash attention
+# it after the compatible CUDA builds of torch and torchvision:
+# pip install setuptools wheel packaging psutil ninja
+# pip install --no-build-isolation flash-attn

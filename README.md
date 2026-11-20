@@ -1,68 +1,120 @@
-# CogAlign
-
-**Aligning MLLMs with the Latent Structure of Human Cognition via Behavior-Derived Semantic Dimensions**
+# CogAlign: Aligning MLLMs with the Latent Structure of Human Cognition via Behavior-Derived Semantic Dimensions**
 
 Ning E, Changde Du, Yizhuo Lu, and Huiguang He  
 NeurIPS 2026 · Poster
 
-[Paper (arXiv v1)](https://arxiv.org/abs/2610.41951v1) · [NeurIPS poster listing](https://neurips.cc/virtual/2026/poster/152778) · [Reproduction guide](docs/reproduction.md) · [Data and checkpoints](docs/data.md) · [Shell examples](scripts/README.md)
+[[`Paper`](https://arxiv.org/abs/2610.41951v1)] [[`Poster`](docs/assets/cogalign-neurips-2026-poster.png)] [[`BibTex`](#Citation)]
 
-[![CogAlign NeurIPS 2026 poster](docs/assets/cogalign-neurips-2026-poster.png)](docs/assets/cogalign-neurips-2026-poster.png)
+People compare objects by focusing on meaningful qualities they share, such as what they are made of, how they look, or what they are used for. We ask whether teaching AI to use these underlying cognitive dimensions can make its decisions more consistent with human thinking. Building on 4.70 million human choices, we identify the dimension that best explains each choice and translate it into linguistic rationale. Our method, CogAlign, then trains AI using these rationales alongside the human choices. The trained AI shows better agreement with human similarity judgments while retaining competitive general performance. An independent analysis of fMRI data collected while people view natural objects further reveals closer alignment between the AI internal representations and patterns of human brain activity. Our findings offer a data-driven approach to incorporating human cognitive structure into AI, helping researchers better understand and guide AI decisions.
 
-CogAlign uses a 66-dimensional SPoSE representation of 1,854 objects derived from 4.70 million human odd-one-out judgments. For each triplet, it removes one semantic dimension at a time and measures the change in probability assigned to the human-selected pair. A language model verbalizes the highest-scoring dimension as a rationale. Supervised fine-tuning learns to generate the rationale and the human choice while mixing in general multimodal instruction data. At evaluation, the aligned model receives the images and task instruction. [Paper, §3](https://arxiv.org/html/2610.41951v1)
+## Results
+### General Performance
+CogAlign consistently improves MMMU<sub>val</sub> by 3.12 - 4.34, while yielding declines of 0.05 - 3.58 on MMBench<sub>en, test</sub>, suggesting benchmark-dependent trade-off in general multimodal capabilities rather than uniform capability degradation.
 
-## Paper results
+<table>
+  <tr>
+    <th colspan="1">Benchmark</th>
+    <th colspan="1">Model</th>
+    <th colspan="1">Scale</th>
+    <th colspan="1">Baseline</th>
+    <th colspan="1">CogAlign</th>
+  </tr>
+  <tr>
+    <td rowspan="2">MMMU<sub>val</sub></td>
+    <td rowspan="2">Qwen3-VL</td>
+    <td>4B</td>
+    <td>48.44</td>
+    <td>51.56</td>
+  </tr>
+  <tr>
+    <td>8B</td>
+    <td>50.67</td>
+    <td>54.22</td>
+  </tr>
+  <tr>
+    <td rowspan="2">MMBench<sub>en,test</sub></td>
+    <td rowspan="2">Qwen3-VL</td>
+    <td>4B</td>
+    <td>82.96</td>
+    <td>81.39</td>
+  </tr>
+  <tr>
+    <td>8B</td>
+    <td>83.91</td>
+    <td>83.86</td>
+  </tr>
+  
+</table>
 
-| Qwen3-VL | THINGS O1O (CoT → CogAlign) | MMMU validation (baseline → CogAlign) | MMBench English test (baseline → CogAlign) |
-| --- | ---: | ---: | ---: |
-| 4B | 53.37 → **56.81** (+3.44 pp) | 48.44 → **51.56** | **82.96** → 81.39 |
-| 8B | 52.28 → **56.99** (+4.71 pp) | 50.67 → **54.22** | **83.91** → 83.86 |
-| 30B-A3B | 55.38 → **56.21** (+0.83 pp) | 53.22 → **57.56** | **87.44** → 83.86 |
+### Human Consistency
+On 453,642 held-out THINGS triplets, CogAlign improves human consistency over both Direct and CoT baselines across Qwen3-VL model scales (4B to 30B-A3B), maintaining stable accuracy range of 56.21 - 56.99. Centaur 70B scores 51.96. The human noise ceiling is 68.74. CogAlign robustness ranges 56 ~ 57.
 
-All scores are percentages. The O1O evaluation uses 453,642 held-out triplets. In a separate 48-object analysis, the reported human–model geometry score rises from 73.30% to 80.93% for Qwen2.5-VL-7B. The paper also reports positive fMRI searchlight RSA shifts for Qwen3-VL-4B across four NSD participants. [Paper, Tables 1–2 and Figures 4–6](https://arxiv.org/html/2610.41951v1#S4)
+<img src="./docs/assets/human-consistency.svg">
 
-## Quick start
+### Neuroscientific Analysis
+Searchlight RSA comparing MLLMs internal representation with human brain, revealing improved geometry alignment across four subjects on the independent NSD fMRI dataset. Darker colors indicate better CogAlign alignment with human brain over Baseline.
 
-Install in a Python 3.10+ environment from the repository root.
+<div style="display: flex; justify-content: center; gap: 20px; text-align: center;">
+  
+  <div style="flex: 1; max-width: 45%;">
+    <img src="./docs/assets/subjs-4b-it-concat-last-four-hs-neuro-proj.png" width="100%">
+    <p><i>Subj 1, 2, 5, 7 · last layer</i></p>
+  </div>
 
-```bash
-python -m pip install -e .
+  <div style="flex: 1; max-width: 45%;">
+    <img src="./docs/assets/subj01-4b-it-hs-neuro-proj.png" width="100%">
+    <p><i>Subj 1 · last layer, second-to-last layer, concat last four layers</i></p>
+  </div>
+
+</div>
+
+## Models
+See our HuggingFace [collection](https://huggingface.co/collections/ening-open/cogalign) for released CogAlign models.
+
+## Dataset
+See our HuggingFace [dataset](https://huggingface.co/datasets/ening-open/cogalign) for released cogalign datasets.
+
+## Getting Started
+### Setup
+
+```
+conda create -n cogalign python=3.12 -y
+conda activate cogalign
+pip install -r requirements.txt
+pip install -e . # for development mode
 ```
 
-Run a CPU-only evaluation on two synthetic records. It requires no model weights, images, or API key.
-
-```bash
-python - <<'PY'
-from cogalign.evaluation.odd_one_out import build_correctness, summarize_accuracy
-
-records = [
-    {"id": 0, "option": ["A", "B", "C"], "label_choice": "B", "response": "Answer: B"},
-    {"id": 1, "option": ["A", "B", "C"], "label_choice": "A", "response": "Answer: C"},
-]
-print(summarize_accuracy(build_correctness(records)))
-PY
+### Usage Demo
+#### Train
+```
+bash scripts/sft_qwen3vl_4b_it_align.sh /path/to/model /path/to/images /path/to/train.json /path/to/validation.json path/to/output
 ```
 
-Expected accuracy is `0.5` (one correct prediction out of two).
+#### Inference
+```bash
+IMAGE_DIR=/path/to/things-images
+DATA_PATH=/path/to/o1o-heldout-data.json
+BASE_MODEL=/path/to/model
+ALIGNED_MODEL=/path/to/model-cogalign
 
-| Workflow | Install extra | Entry point |
-| --- | --- | --- |
-| Qwen3-VL supervised fine-tuning | `.[train]` | [`scripts/sft_qwen3vl_4b_it_align.sh`](scripts/sft_qwen3vl_4b_it_align.sh) |
-| Paper-style O1O inference with vLLM | `.[vllm]` | [`scripts/infer_qwenvl.sh`](scripts/infer_qwenvl.sh) with `infer` |
-| Transformers inference | `.[inference]` and `accelerate` | Same script with `hf_infer` |
-| Extraction and fMRI searchlight | `.[neural]` and `accelerate` | `cogalign.neural.extract_hidden_states`, `cogalign.neural.searchlight_rsa` |
-| Cortical visualization | `.[visualization]` | `cogalign.neural.plot_searchlight` |
-| Rationale judge and embedding analysis | `.[judge]` or `.[rationale]` | `cogalign.evaluation.kimi_judge`, `cogalign.evaluation.rationale_metrics` |
-
-For example, install `python -m pip install -e '.[vllm]'` for vLLM inference. Use Bash on a compatible Linux CUDA environment for the train and GPU inference examples. SFT, Transformers inference, and hidden-state extraction also require a compatible FlashAttention 2 build. Install `.[train,tracking]` for SwanLab or `.[train,quantization]` for four-bit fine-tuning. The 48-object RSM-to-RDM and scoring steps use GNU Octave. [Qwen3-VL setup](https://github.com/QwenLM/Qwen3-VL)
-
-## Reproduce the paper
-
-Start with the [result-by-result reproduction guide](docs/reproduction.md). It maps Tables 1–4, the appendix analyses, and Figures 4–6 to repository commands and intermediate files. The checkout supports SFT from prepared JSON, Qwen-VL inference, O1O scoring, and behavioral RSA from encoded triplets. Paper-number reproduction also needs the experiment-specific [data, weights, and run records](docs/data.md), including the missing conversion from raw NSD hidden states to searchlight inputs.
+for condition in baseline aligned; do
+  model="$BASE_MODEL"
+  if [ "$condition" = aligned ]; then model="$ALIGNED_MODEL"; fi
+  bash scripts/infer_qwenvl.sh infer "runs/o1o-$condition" \
+    "$DATA_PATH" "$IMAGE_DIR" "$model" "qwenvl_$condition" \
+    --temperature 0 --top-p 1 --top-k -1 \
+    --repetition-penalty 1.05 --max-new-tokens 8192 \
+    --presence-penalty "${PRESENCE_PENALTY:?set from the archived run}" \
+    --tensor-parallel-size "${TENSOR_PARALLEL_SIZE:?set from the archived run}" \
+    --max-model-len "${MAX_MODEL_LEN:?set from the archived run}" \
+    --min-pixels "${MIN_PIXELS:?set from the archived run}" \
+    --max-pixels "${MAX_PIXELS:?set from the archived run}"
+done
+```
 
 ## Citation
 
-Use [CITATION.cff](CITATION.cff) or the following BibTeX.
+If you find this work useful in your research, please consider giving a star and cite the paper:
 
 ```bibtex
 @misc{e2026aligningmllmslatentstructure,

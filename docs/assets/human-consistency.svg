@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="567" height="376" viewBox="18 142.5 670 444.3" role="img" aria-labelledby="title description">
+  <title id="title">Human consistency</title>
+  <desc id="description">Qwen3-VL Instruct models on THINGS held-out. The 4B, 8B, and 30B-A3B models score 41.48, 40.46, and 37.09 with Direct, 53.37, 52.28, and 55.38 with CoT, and 56.81, 56.99, and 56.21 with CogAlign. The human noise ceiling is 68.74.</desc>
+  <style>
+    text { font-family: 'Segoe UI', Arial, sans-serif; }
+    .legend { fill: #6e7a8e; font-size: 17.5px; font-weight: 600; }
+    .tick { fill: #7e8aa3; font-size: 15.5px; font-weight: 600; text-anchor: end; }
+    .model { fill: #56647b; font-size: 17px; font-weight: 600; text-anchor: middle; }
+    .value { font-size: 14px; font-weight: 600; text-anchor: middle; }
+    .cogalign-values { font-weight: 700; }
+
+    @media (prefers-color-scheme: dark) {
+      .legend, .model { fill: #d1d9e0; }
+      .tick { fill: #b1bac4; }
+      .grid { stroke: #30363d; }
+      .axis { stroke: #7d8590; }
+      .noise-line { stroke: #f28b82; }
+      .noise-label { fill: #f28b82; }
+      .direct-values { fill: #a5d6ff; }
+      .cot-values { fill: #9ee0e6; }
+      .cogalign-values { fill: #d2c5ff; }
+    }
+  </style>
+
+  <g class="legend" aria-label="Legend">
+    <circle cx="47.8" cy="159" r="7.25" fill="#50a3e4" stroke="#a8d1f1" stroke-width="1.65"/>
+    <text x="67.7" y="165.2" textLength="48.5" lengthAdjust="spacingAndGlyphs">Direct</text>
+    <circle cx="142.4" cy="159" r="7.25" fill="#5abcc6" stroke="#addaE0" stroke-width="1.65"/>
+    <text x="162.4" y="165.2" textLength="31.5" lengthAdjust="spacingAndGlyphs">CoT</text>
+    <circle cx="219.8" cy="159" r="7.25" fill="#645de5" stroke="#b4b0f3" stroke-width="1.65"/>
+    <text x="240" y="165.2" textLength="110" lengthAdjust="spacingAndGlyphs">CogAlign (our)</text>
+    <circle cx="375.9" cy="159" r="7.25" fill="#b3534e" stroke="#d9b1b0" stroke-width="1.65"/>
+    <text x="395.8" y="165.2" textLength="100.5" lengthAdjust="spacingAndGlyphs">Noise Ceiling</text>
+  </g>
+
+  <g aria-label="Chart grid and scale">
+    <path class="grid" d="M77.8 221.0H625.5 M77.8 262.3H625.5 M77.8 303.7H625.5 M77.8 345.0H625.5 M77.8 386.3H625.5 M77.8 427.7H625.5 M77.8 469.0H625.5 M77.8 510.4H625.5" fill="none" stroke="#e1e9f4" stroke-width="1.16"/>
+    <text class="tick" x="69" y="226.8">80</text>
+    <text class="tick" x="69" y="268.1">70</text>
+    <text class="tick" x="69" y="309.5">60</text>
+    <text class="tick" x="69" y="350.8">50</text>
+    <text class="tick" x="69" y="392.1">40</text>
+    <text class="tick" x="69" y="433.5">30</text>
+    <text class="tick" x="69" y="474.8">20</text>
+    <text class="tick" x="69" y="516.2">10</text>
+    <text class="tick" x="69" y="557.5">0</text>
+    <path class="axis" d="M77.8 196.1V551.7H625.5" fill="none" stroke="#b6c3db" stroke-width="1.33"/>
+  </g>
+
+  <g aria-label="Human noise ceiling at 68.74">
+    <path class="noise-line" d="M77.8 267.55H625.5" fill="none" stroke="#b3534e" stroke-opacity=".88" stroke-width="1.75" stroke-dasharray="8.74 8.74"/>
+    <text class="noise-label" x="616.5" y="255.8" fill="#b3534e" font-size="15" font-weight="600" text-anchor="end" textLength="84" lengthAdjust="spacingAndGlyphs">noise ceiling</text>
+  </g>
+
+  <g aria-label="Direct">
+    <g fill="#50a3e4" fill-opacity=".8">
+      <rect x="112.74" y="380.23" width="29.12" height="171.47"/>
+      <rect x="287.50" y="384.46" width="29.12" height="167.24"/>
+      <rect x="462.25" y="398.37" width="29.12" height="153.33"/>
+    </g>
+    <g class="value direct-values" fill="#265171">
+      <text x="127.3" y="374.1" textLength="35" lengthAdjust="spacingAndGlyphs">41.48</text>
+      <text x="302.06" y="378.8" textLength="35" lengthAdjust="spacingAndGlyphs">40.46</text>
+      <text x="476.81" y="392.8" textLength="35" lengthAdjust="spacingAndGlyphs">37.09</text>
+    </g>
+  </g>
+
+  <g aria-label="CoT">
+    <g fill="#5abcc6" fill-opacity=".8">
+      <rect x="159.32" y="331.13" width="29.12" height="220.57"/>
+      <rect x="334.08" y="335.61" width="29.12" height="216.09"/>
+      <rect x="508.83" y="322.82" width="29.12" height="228.88"/>
+    </g>
+    <g class="value cot-values" fill="#2a5e63">
+      <text x="173.88" y="324.9" textLength="35" lengthAdjust="spacingAndGlyphs">53.37</text>
+      <text x="348.64" y="329.8" textLength="35" lengthAdjust="spacingAndGlyphs">52.28</text>
+      <text x="523.39" y="316.8" textLength="35" lengthAdjust="spacingAndGlyphs">55.38</text>
+    </g>
+  </g>
+
+  <g aria-label="CogAlign">
+    <g fill="#645de5" fill-opacity=".8">
+      <rect x="205.91" y="316.9" width="29.12" height="234.8"/>
+      <rect x="380.66" y="316.16" width="29.12" height="235.54"/>
+      <rect x="555.42" y="319.38" width="29.12" height="232.32"/>
+    </g>
+    <g class="value cogalign-values" fill="#322f73">
+      <text x="220.47" y="310.6" textLength="35" lengthAdjust="spacingAndGlyphs">56.81</text>
+      <text x="395.22" y="309.8" textLength="35" lengthAdjust="spacingAndGlyphs">56.99</text>
+      <text x="569.98" y="313.75" textLength="35" lengthAdjust="spacingAndGlyphs">56.21</text>
+    </g>
+  </g>
+
+  <g class="model" aria-label="Model scales">
+    <text x="173.88" y="575" textLength="110" lengthAdjust="spacingAndGlyphs">Qwen3-VL 4B</text>
+    <text x="348.64" y="575" textLength="110" lengthAdjust="spacingAndGlyphs">Qwen3-VL 8B</text>
+    <text x="523.39" y="575" font-size="15" textLength="133" lengthAdjust="spacingAndGlyphs">Qwen3-VL 30B-A3B</text>
+  </g>
+</svg>
